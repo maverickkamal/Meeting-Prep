@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Prep</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">Meeting Prep</h1>
+            <p class="subtitle">Select tabs to close before your meeting</p>
+        </header>
+        
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Loading tabs...</p>
+        </div>
+        
+        <div id="content" class="content hidden">
+            <div class="controls">
+                <div class="tab-count">
+                    <span id="selected-count">0</span> of <span id="total-count">0</span> tabs selected
+                </div>
+                <div class="selection-controls">
+                    <button id="select-all" class="btn btn-secondary">Select All</button>
+                    <button id="select-none" class="btn btn-secondary">Select None</button>
+                    <button id="manage-whitelist-main" class="btn btn-secondary">⚙️ Whitelist</button>
+                </div>
+            </div>
+            
+            <div id="tabs-list" class="tabs-list">
+                <!-- Tabs will be dynamically inserted here -->
+            </div>
+            
+            <div class="actions">
+                <button id="cleanup-button" class="btn btn-primary">
+                    Close Selected Tabs
+                </button>
+                <button id="cancel-button" class="btn btn-secondary">
+                    Cancel
+                </button>
+            </div>
+        </div>
+        
+        <div id="empty-state" class="empty-state hidden">
+            <div class="empty-icon">✨</div>
+            <h2>All clean!</h2>
+            <p>No tabs need to be closed. All your open tabs are whitelisted.</p>
+            <button id="manage-whitelist" class="btn btn-secondary">
+                Manage Whitelist
+            </button>
+        </div>
+        
+        <div id="error-state" class="error-state hidden">
+            <div class="error-icon">⚠️</div>
+            <h2>Something went wrong</h2>
+            <p id="error-message">Unable to load tabs. Please try again.</p>
+            <button id="retry-button" class="btn btn-primary">
+                Retry
+            </button>
+        </div>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>
+
