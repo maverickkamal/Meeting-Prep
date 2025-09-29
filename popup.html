@@ -26,7 +26,7 @@
                 <div class="selection-controls">
                     <button id="select-all" class="btn btn-secondary">Select All</button>
                     <button id="select-none" class="btn btn-secondary">Select None</button>
-                    <button id="manage-whitelist-main" class="btn btn-secondary">⚙️ Whitelist</button>
+                    <button id="manage-whitelist-main" class="btn btn-secondary">Settings</button>
                 </div>
             </div>
             
@@ -45,16 +45,16 @@
         </div>
         
         <div id="empty-state" class="empty-state hidden">
-            <div class="empty-icon">✨</div>
+            <div class="empty-icon">✓</div>
             <h2>All clean!</h2>
             <p>No tabs need to be closed. All your open tabs are whitelisted.</p>
             <button id="manage-whitelist" class="btn btn-secondary">
                 Manage Whitelist
             </button>
         </div>
-        
+
         <div id="error-state" class="error-state hidden">
-            <div class="error-icon">⚠️</div>
+            <div class="error-icon">!</div>
             <h2>Something went wrong</h2>
             <p id="error-message">Unable to load tabs. Please try again.</p>
             <button id="retry-button" class="btn btn-primary">
