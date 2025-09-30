@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Prep</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">Meeting Prep</h1>
+            <p class="subtitle">Select tabs to close before your meeting</p>
+        </header>
+        
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Loading tabs...</p>
+        </div>
+        
+        <div id="content" class="content hidden">
+            <div class="controls">
+                <div class="top-controls">
+                    <div class="mode-selector">
+                        <label class="mode-label">
+                            <input type="radio" name="mode" value="manual" checked>
+                            <span class="mode-text">Manual</span>
+                        </label>
+                        <label class="mode-label">
+                            <input type="radio" name="mode" value="auto">
+                            <span class="mode-text">Auto</span>
+                        </label>
+                    </div>
+                    <div class="theme-selector">
+                        <select id="theme-select" class="theme-dropdown">
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                            <option value="pixelated">Pixelated</option>
+                            <option value="consolas">Consolas</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="controls-right">
+                    <div class="tab-count">
+                        <span id="selected-count">0</span> of <span id="total-count">0</span> tabs selected
+                    </div>
+                    <div class="selection-controls">
+                        <button id="select-all" class="btn btn-secondary">Select All</button>
+                        <button id="select-none" class="btn btn-secondary">Select None</button>
+                        <button id="manage-whitelist-main" class="btn btn-secondary">Settings</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="tabs-list" class="tabs-list">
+              
+            </div>
+            
+            <div class="actions">
+                <button id="cleanup-button" class="btn btn-primary">
+                    <span id="cleanup-button-text">Close Selected Tabs</span>
+                </button>
+                <button id="cancel-button" class="btn btn-secondary">
+                    Cancel
+                </button>
+            </div>
+        </div>
+        
+        <div id="empty-state" class="empty-state hidden">
+            <div class="empty-icon">✓</div>
+            <h2>All clean!</h2>
+            <p>No tabs need to be closed. All your open tabs are whitelisted.</p>
+            <button id="manage-whitelist" class="btn btn-secondary">
+                Manage Whitelist
+            </button>
+        </div>
+
+        <div id="error-state" class="error-state hidden">
+            <div class="error-icon">!</div>
+            <h2>Something went wrong</h2>
+            <p id="error-message">Unable to load tabs. Please try again.</p>
+            <button id="retry-button" class="btn btn-primary">
+                Retry
+            </button>
+        </div>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>
+

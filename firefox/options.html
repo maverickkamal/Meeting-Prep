@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Prep - Settings</title>
+    <link rel="stylesheet" href="options.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">Meeting Prep Settings</h1>
+            <p class="subtitle">Manage your whitelist of essential websites</p>
+        </header>
+        
+        <main class="main">
+            <section class="add-section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Add Website to Whitelist</h2>
+                        <p class="section-description">
+                            Add websites that you want to keep open during meetings. You can add full URLs or just domain names.
+                        </p>
+                    </div>
+                    <div class="theme-selector">
+                        <label class="theme-label">Theme:</label>
+                        <select id="theme-select" class="theme-dropdown">
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                            <option value="pixelated">Pixelated</option>
+                            <option value="consolas">Consolas</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="pixelated-controls" class="section-content" style="display: none;">
+                    <div class="pixelated-time-control">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="pixelated-auto-time" checked>
+                            <span>Auto day/night based on time (6am-6pm = day, 6pm-6am = night)</span>
+                        </label>
+                        <div id="manual-time-control" class="manual-time-control" style="display: none;">
+                            <button id="pixelated-day" class="btn btn-secondary">☀️ Day Mode</button>
+                            <button id="pixelated-night" class="btn btn-secondary">🌙 Night Mode</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <input type="text" 
+                           id="url-input" 
+                           class="url-input" 
+                           placeholder="e.g., gmail.com or https://calendar.google.com"
+                           autocomplete="off"
+                           spellcheck="false">
+                    <button id="add-button" class="btn btn-primary">
+                        Add to Whitelist
+                    </button>
+                </div>
+                
+                <div class="examples">
+                    <p class="examples-title">Examples:</p>
+                    <ul class="examples-list">
+                        <li><code>gmail.com</code> - Keeps Gmail open</li>
+                        <li><code>calendar.google.com</code> - Keeps Google Calendar open</li>
+                        <li><code>notion.so</code> - Keeps Notion open</li>
+                        <li><code>slack.com</code> - Keeps Slack open</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <section class="whitelist-section">
+                <div class="section-header">
+                    <h2 class="section-title">Current Whitelist</h2>
+                    <button id="clear-all" class="btn btn-danger btn-small">Clear All</button>
+                </div>
+                
+                <div id="whitelist-container">
+                    <div id="loading-whitelist" class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading whitelist...</p>
+                    </div>
+                    
+                    <ul id="whitelist-list" class="whitelist-list hidden">
+                     
+                    </ul>
+                    
+                    <div id="empty-whitelist" class="empty-state hidden">
+                        <div class="empty-icon">📝</div>
+                        <h3>No websites in whitelist</h3>
+                        <p>Add your first website above to get started.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="info-section">
+                <h2 class="section-title">How it works</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-icon">🔒</div>
+                        <div class="info-content">
+                            <h4>Safe & Secure</h4>
+                            <p>Your whitelist is stored locally and synced across your Chrome browsers.</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">⚡</div>
+                        <div class="info-content">
+                            <h4>Quick Setup</h4>
+                            <p>Click the extension icon to see which tabs will be closed before your meeting.</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">✅</div>
+                        <div class="info-content">
+                            <h4>Full Control</h4>
+                            <p>Review and selectively close tabs - never lose important work accidentally.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <div id="notification" class="notification hidden">
+            <span id="notification-message"></span>
+            <button id="notification-close" class="notification-close">&times;</button>
+        </div>
+    </div>
+    
+    <script src="options.js"></script>
+</body>
+</html>
+
