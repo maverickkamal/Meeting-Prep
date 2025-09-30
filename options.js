@@ -1,29 +1,28 @@
-// Options script for Meeting Prep Chrome extension
-// Handles whitelist management functionality
-
 document.addEventListener('DOMContentLoaded', () => {
   initializeOptions();
 });
 
 let currentWhitelist = [];
+let currentTheme = 'light';
 
-/**
- * Initialize the options page
- */
+
 function initializeOptions() {
   setupEventListeners();
+  loadThemePreference();
   loadWhitelist();
 }
 
-/**
- * Set up event listeners for UI controls
- */
+
 function setupEventListeners() {
   const addButton = document.getElementById('add-button');
   const urlInput = document.getElementById('url-input');
   const clearAllButton = document.getElementById('clear-all');
   const notificationClose = document.getElementById('notification-close');
-  
+  const themeSelect = document.getElementById('theme-select');
+  const pixelatedAutoTime = document.getElementById('pixelated-auto-time');
+  const pixelatedDay = document.getElementById('pixelated-day');
+  const pixelatedNight = document.getElementById('pixelated-night');
+
   addButton.addEventListener('click', handleAddUrl);
   urlInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
@@ -32,14 +31,16 @@ function setupEventListeners() {
   });
   clearAllButton.addEventListener('click', handleClearAll);
   notificationClose.addEventListener('click', hideNotification);
+  themeSelect?.addEventListener('change', handleThemeChange);
   
-  // Auto-focus the input field
+  pixelatedAutoTime?.addEventListener('change', handlePixelatedAutoTimeChange);
+  pixelatedDay?.addEventListener('click', () => setPixelatedMode('light'));
+  pixelatedNight?.addEventListener('click', () => setPixelatedMode('dark'));
+
+
   urlInput.focus();
 }
 
-/**
- * Load whitelist from storage
- */
 async function loadWhitelist() {
   try {
     showLoadingWhitelist();
@@ -55,9 +56,6 @@ async function loadWhitelist() {
   }
 }
 
-/**
- * Render the whitelist in the UI
- */
 function renderWhitelist() {
   const whitelistList = document.getElementById('whitelist-list');
   const emptyState = document.getElementById('empty-whitelist');
@@ -82,9 +80,7 @@ function renderWhitelist() {
   });
 }
 
-/**
- * Create a whitelist item element
- */
+
 function createWhitelistItem(url, index) {
   const listItem = document.createElement('li');
   listItem.className = 'whitelist-item';
@@ -99,17 +95,14 @@ function createWhitelistItem(url, index) {
       </button>
     </div>
   `;
-  
-  // Add event listener for remove button
+
   const removeButton = listItem.querySelector('.remove-button');
   removeButton.addEventListener('click', () => handleRemoveUrl(index));
   
   return listItem;
 }
 
-/**
- * Handle adding a new URL to whitelist
- */
+
 async function handleAddUrl() {
   const urlInput = document.getElementById('url-input');
   const addButton = document.getElementById('add-button');
@@ -121,7 +114,6 @@ async function handleAddUrl() {
     return;
   }
   
-  // Normalize the URL
   const normalizedUrl = normalizeUrl(rawUrl);
   
   if (!isValidUrl(normalizedUrl)) {
@@ -130,7 +122,6 @@ async function handleAddUrl() {
     return;
   }
   
-  // Check for duplicates
   if (currentWhitelist.includes(normalizedUrl)) {
     showNotification('This URL is already in your whitelist', 'warning');
     urlInput.value = '';
@@ -138,7 +129,6 @@ async function handleAddUrl() {
     return;
   }
   
-  // Add to whitelist
   try {
     addButton.disabled = true;
     addButton.textContent = 'Adding...';
@@ -152,7 +142,7 @@ async function handleAddUrl() {
     
   } catch (error) {
     console.error('Error adding URL:', error);
-    currentWhitelist.pop(); // Remove the failed addition
+    currentWhitelist.pop();
     showNotification('Failed to add URL to whitelist', 'error');
     
   } finally {
@@ -162,9 +152,7 @@ async function handleAddUrl() {
   }
 }
 
-/**
- * Handle removing a URL from whitelist
- */
+
 async function handleRemoveUrl(index) {
   if (index < 0 || index >= currentWhitelist.length) {
     return;
@@ -181,15 +169,12 @@ async function handleRemoveUrl(index) {
     
   } catch (error) {
     console.error('Error removing URL:', error);
-    // Restore the removed item
     currentWhitelist.splice(index, 0, urlToRemove);
     showNotification('Failed to remove URL from whitelist', 'error');
   }
 }
 
-/**
- * Handle clearing all URLs from whitelist
- */
+
 async function handleClearAll() {
   if (currentWhitelist.length === 0) {
     return;
@@ -217,9 +202,7 @@ async function handleClearAll() {
   }
 }
 
-/**
- * Save whitelist to storage
- */
+
 async function saveWhitelist() {
   return new Promise((resolve, reject) => {
     chrome.storage.sync.set({ whitelist: currentWhitelist }, () => {
@@ -232,9 +215,7 @@ async function saveWhitelist() {
   });
 }
 
-/**
- * Show notification
- */
+
 function showNotification(message, type = 'info') {
   const notification = document.getElementById('notification');
   const messageElement = document.getElementById('notification-message');
@@ -243,7 +224,6 @@ function showNotification(message, type = 'info') {
   messageElement.textContent = message;
   notification.classList.remove('hidden');
   
-  // Auto-hide after 5 seconds for success messages
   if (type === 'success') {
     setTimeout(() => {
       hideNotification();
@@ -251,44 +231,33 @@ function showNotification(message, type = 'info') {
   }
 }
 
-/**
- * Hide notification
- */
+
 function hideNotification() {
   const notification = document.getElementById('notification');
   notification.classList.add('hidden');
 }
 
-/**
- * Show loading state for whitelist
- */
+
 function showLoadingWhitelist() {
   document.getElementById('loading-whitelist').classList.remove('hidden');
   document.getElementById('whitelist-list').classList.add('hidden');
   document.getElementById('empty-whitelist').classList.add('hidden');
 }
 
-/**
- * Utility functions
- */
+
 function normalizeUrl(url) {
-  // Remove protocol if present
   let normalized = url.replace(/^https?:\/\//, '');
   
-  // Remove www. prefix
   normalized = normalized.replace(/^www\./, '');
   
-  // Remove trailing slash and path
   normalized = normalized.split('/')[0];
   
-  // Remove port numbers
   normalized = normalized.split(':')[0];
   
   return normalized.toLowerCase();
 }
 
 function isValidUrl(url) {
-  // Basic domain validation
   const domainRegex = /^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
   return domainRegex.test(url) && url.includes('.');
 }
@@ -308,5 +277,86 @@ function escapeHtml(text) {
   const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;
+}
+
+
+function loadThemePreference() {
+  chrome.storage.sync.get(['theme', 'pixelatedAutoTime'], (result) => {
+    currentTheme = result.theme || 'light';
+    const pixelatedAutoTime = result.pixelatedAutoTime !== false;
+    
+    applyTheme(currentTheme, pixelatedAutoTime);
+    
+    const themeSelect = document.getElementById('theme-select');
+    if (themeSelect) {
+      themeSelect.value = currentTheme === 'pixelated-light' || currentTheme === 'pixelated-dark' ? 'pixelated' : currentTheme;
+    }
+    
+    updatePixelatedControls();
+  });
+}
+
+
+function handleThemeChange(event) {
+  currentTheme = event.target.value;
+  chrome.storage.sync.get(['pixelatedAutoTime'], (result) => {
+    const pixelatedAutoTime = result.pixelatedAutoTime !== false;
+    applyTheme(currentTheme, pixelatedAutoTime);
+    chrome.storage.sync.set({ theme: currentTheme });
+    updatePixelatedControls();
+  });
+}
+
+
+function applyTheme(theme, pixelatedAutoTime = true) {
+  if (theme === 'pixelated' && pixelatedAutoTime) {
+    const hour = new Date().getHours();
+    theme = (hour >= 6 && hour < 18) ? 'pixelated-light' : 'pixelated-dark';
+  }
+  
+  document.documentElement.setAttribute('data-theme', theme);
+}
+
+function updatePixelatedControls() {
+  const pixelatedControls = document.getElementById('pixelated-controls');
+  const manualTimeControl = document.getElementById('manual-time-control');
+  const pixelatedAutoTimeCheckbox = document.getElementById('pixelated-auto-time');
+  
+  if (pixelatedControls) {
+    const isPixelated = currentTheme === 'pixelated' || currentTheme === 'pixelated-light' || currentTheme === 'pixelated-dark';
+    pixelatedControls.style.display = isPixelated ? 'block' : 'none';
+    
+    if (isPixelated) {
+      chrome.storage.sync.get(['pixelatedAutoTime'], (result) => {
+        const autoTime = result.pixelatedAutoTime !== false;
+        if (pixelatedAutoTimeCheckbox) {
+          pixelatedAutoTimeCheckbox.checked = autoTime;
+        }
+        if (manualTimeControl) {
+          manualTimeControl.style.display = autoTime ? 'none' : 'flex';
+        }
+      });
+    }
+  }
+}
+
+function handlePixelatedAutoTimeChange(event) {
+  const autoTime = event.target.checked;
+  chrome.storage.sync.set({ pixelatedAutoTime: autoTime });
+  
+  const manualTimeControl = document.getElementById('manual-time-control');
+  if (manualTimeControl) {
+    manualTimeControl.style.display = autoTime ? 'none' : 'flex';
+  }
+  
+  chrome.storage.sync.get(['theme'], (result) => {
+    applyTheme(result.theme || 'light', autoTime);
+  });
+}
+
+function setPixelatedMode(mode) {
+  const theme = mode === 'light' ? 'pixelated-light' : 'pixelated-dark';
+  applyTheme(theme, false);
+  chrome.storage.sync.set({ theme: 'pixelated', pixelatedAutoTime: false });
 }
 

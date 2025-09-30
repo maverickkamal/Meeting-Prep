@@ -15,10 +15,36 @@
         
         <main class="main">
             <section class="add-section">
-                <h2 class="section-title">Add Website to Whitelist</h2>
-                <p class="section-description">
-                    Add websites that you want to keep open during meetings. You can add full URLs or just domain names.
-                </p>
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Add Website to Whitelist</h2>
+                        <p class="section-description">
+                            Add websites that you want to keep open during meetings. You can add full URLs or just domain names.
+                        </p>
+                    </div>
+                    <div class="theme-selector">
+                        <label class="theme-label">Theme:</label>
+                        <select id="theme-select" class="theme-dropdown">
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                            <option value="pixelated">Pixelated</option>
+                            <option value="consolas">Consolas</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="pixelated-controls" class="section-content" style="display: none;">
+                    <div class="pixelated-time-control">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="pixelated-auto-time" checked>
+                            <span>Auto day/night based on time (6am-6pm = day, 6pm-6am = night)</span>
+                        </label>
+                        <div id="manual-time-control" class="manual-time-control" style="display: none;">
+                            <button id="pixelated-day" class="btn btn-secondary">☀️ Day Mode</button>
+                            <button id="pixelated-night" class="btn btn-secondary">🌙 Night Mode</button>
+                        </div>
+                    </div>
+                </div>
                 
                 <div class="input-group">
                     <input type="text" 
@@ -56,7 +82,7 @@
                     </div>
                     
                     <ul id="whitelist-list" class="whitelist-list hidden">
-                        <!-- Whitelist items will be dynamically inserted here -->
+                     
                     </ul>
                     
                     <div id="empty-whitelist" class="empty-state hidden">
