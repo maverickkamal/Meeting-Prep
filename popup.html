@@ -20,23 +20,45 @@
         
         <div id="content" class="content hidden">
             <div class="controls">
-                <div class="tab-count">
-                    <span id="selected-count">0</span> of <span id="total-count">0</span> tabs selected
+                <div class="top-controls">
+                    <div class="mode-selector">
+                        <label class="mode-label">
+                            <input type="radio" name="mode" value="manual" checked>
+                            <span class="mode-text">Manual</span>
+                        </label>
+                        <label class="mode-label">
+                            <input type="radio" name="mode" value="auto">
+                            <span class="mode-text">Auto</span>
+                        </label>
+                    </div>
+                    <div class="theme-selector">
+                        <select id="theme-select" class="theme-dropdown">
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                            <option value="pixelated">Pixelated</option>
+                            <option value="consolas">Consolas</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="selection-controls">
-                    <button id="select-all" class="btn btn-secondary">Select All</button>
-                    <button id="select-none" class="btn btn-secondary">Select None</button>
-                    <button id="manage-whitelist-main" class="btn btn-secondary">Settings</button>
+                <div class="controls-right">
+                    <div class="tab-count">
+                        <span id="selected-count">0</span> of <span id="total-count">0</span> tabs selected
+                    </div>
+                    <div class="selection-controls">
+                        <button id="select-all" class="btn btn-secondary">Select All</button>
+                        <button id="select-none" class="btn btn-secondary">Select None</button>
+                        <button id="manage-whitelist-main" class="btn btn-secondary">Settings</button>
+                    </div>
                 </div>
             </div>
             
             <div id="tabs-list" class="tabs-list">
-                <!-- Tabs will be dynamically inserted here -->
+              
             </div>
             
             <div class="actions">
                 <button id="cleanup-button" class="btn btn-primary">
-                    Close Selected Tabs
+                    <span id="cleanup-button-text">Close Selected Tabs</span>
                 </button>
                 <button id="cancel-button" class="btn btn-secondary">
                     Cancel
