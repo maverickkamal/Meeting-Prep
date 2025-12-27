@@ -2,6 +2,15 @@
 
 Clean up tab clutter before meetings or focus sessions. Keep only your essential websites open with just a few clicks.
 
+<img width="1107" height="879" alt="Screenshot 2025-09-30 202318" src="https://github.com/user-attachments/assets/90fa6686-63e1-40a1-be62-98285848cefa" />
+
+<img width="1045" height="873" alt="Screenshot 2025-09-30 202330" src="https://github.com/user-attachments/assets/77c4a556-4f1f-4f31-8375-7c2618b13ef4" />
+
+<img width="978" height="866" alt="Screenshot 2025-09-30 202342" src="https://github.com/user-attachments/assets/e99ecb60-fca5-4bf1-934f-77c960262e24" />
+
+<img width="931" height="859" alt="Screenshot 2025-09-30 202355" src="https://github.com/user-attachments/assets/f4b2f292-fe5d-49b8-b28d-534286aa505a" />
+
+
 ## Features
 
 - **Four Beautiful Themes**: Light, Dark, Pixelated (retro gaming font), and Consolas (green terminal)
